@@ -25,5 +25,4 @@
 /build/
 
 ### Application properties ###
-application.properties
 *.properties
