@@ -12,8 +12,10 @@ public abstract class Person {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id",updatable=false,nullable=false)
 	private long id;
-	@Column(name="name",updatable=true,nullable=true)
+	@Column(name="name",updatable=true,nullable=false)
 	private String name;
+	@Column(name="email",updatable=true,nullable=false)
+	private String email;
 	public long getId() {
 		return id;
 	}
@@ -25,6 +27,11 @@ public abstract class Person {
 	}
 	public void setName(String name) {
 		this.name = name;
-	}	
-
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 }

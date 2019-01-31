@@ -49,6 +49,7 @@ public class UserRepositoryTestIntegration {
 		//First Save user
 		User user = new User();
 		user.setName("User");
+		user.setEmail("c@c.es");
 		User newUser = userRepository.save(user);
 		assertNotNull(newUser);
 		assertNotSame(newUser.getId(), 0);
@@ -61,6 +62,7 @@ public class UserRepositoryTestIntegration {
 	public void saveUser() {
 		User user = new User();
 		user.setName("Testing");
+		user.setEmail("c@c.es");
 		User newUser = userRepository.save(user);
 		assertNotNull(newUser);
 		assertNotSame(newUser.getId(), 0);
@@ -71,6 +73,7 @@ public class UserRepositoryTestIntegration {
 		//First Save user
 		User user = new User();
 		user.setName("Delete User");
+		user.setEmail("c@c.es");
 		User newUser = userRepository.save(user);
 		assertNotNull(newUser);
 		assertNotSame(newUser.getId(), 0);

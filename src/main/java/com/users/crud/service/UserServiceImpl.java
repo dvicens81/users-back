@@ -5,12 +5,17 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.users.crud.dto.UserDTO;
 import com.users.crud.entity.User;
+import com.users.crud.error.MethodArgumentNotValid;
 import com.users.crud.mapper.IMapper;
 import com.users.crud.repository.IUserRepository;
+import com.users.crud.utils.ValidateFields;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -18,18 +23,21 @@ public class UserServiceImpl implements IUserService {
 	private IUserRepository userRepository;
 	private IMapper<User, UserDTO> mapperEntityToDto;
 	private IMapper<UserDTO, User> mapperDtoToEntity;
+	private ValidateFields validate;
 	
 	@Autowired
 	public UserServiceImpl(IUserRepository userRepository, IMapper<User, UserDTO> mapperEntityToDto,
-							IMapper<UserDTO, User> mapperDtoToEntity) {
+							IMapper<UserDTO, User> mapperDtoToEntity, ValidateFields validate) {
 		this.userRepository = userRepository;
 		this.mapperEntityToDto = mapperEntityToDto;
 		this.mapperDtoToEntity = mapperDtoToEntity;
+		this.validate = validate;
 	}
 
 	@Override
-	public List<UserDTO> findAllUsers() {
-		return mapperEntityToDto.convertListEntityToListDto(userRepository.findAll(), UserDTO.class);
+	public Page<UserDTO> findAllUsers() {		
+		List<UserDTO> lUsersMapped = mapperEntityToDto.convertListEntityToListDto(userRepository.findAll(), UserDTO.class);
+		return new PageImpl<UserDTO>(lUsersMapped, Pageable.unpaged(), lUsersMapped.size());
 	}
 
 	@Override
@@ -40,13 +48,16 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public UserDTO saveUser(UserDTO userDTO) {
+	public UserDTO saveUser(UserDTO userDTO) throws MethodArgumentNotValid {
+		//Validate Fields
+		validate.validateFields(userDTO);
+		//OK
 		User newUser = userRepository.save(mapperDtoToEntity.convertEntityToDto(userDTO, User.class));
 		return mapperEntityToDto.convertEntityToDto(newUser, UserDTO.class);
 	}
 
 	@Override
-	public UserDTO updateUser(UserDTO userDTO) {
+	public UserDTO updateUser(UserDTO userDTO) throws MethodArgumentNotValid {
 		return saveUser(userDTO);
 	}
 
