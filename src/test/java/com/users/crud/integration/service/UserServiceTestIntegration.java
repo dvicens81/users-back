@@ -15,7 +15,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.users.crud.dto.UserDTO;
-import com.users.crud.error.MethodArgumentNotValid;
+import com.users.crud.error.ArgumentNotValidException;
 import com.users.crud.service.IUserService;
 
 @ExtendWith(SpringExtension.class)
@@ -34,7 +34,7 @@ public class UserServiceTestIntegration {
 	}
 
 	@Test
-	public void save() throws MethodArgumentNotValid {		
+	public void save() throws ArgumentNotValidException {		
 		UserDTO userDTO = new UserDTO();
 		userDTO.setName("DTO USER");
 		userDTO.setEmail("d@d.es");
@@ -43,7 +43,7 @@ public class UserServiceTestIntegration {
 	}
 	
 	@Test
-	public void update() throws MethodArgumentNotValid {
+	public void update() throws ArgumentNotValidException {
 		//First-> Save User
 		UserDTO userDTO = new UserDTO();
 		userDTO.setName("DTO USER");
@@ -57,7 +57,7 @@ public class UserServiceTestIntegration {
 	}
 	
 	@Test
-	public void findUserById() throws MethodArgumentNotValid {
+	public void findUserById() throws ArgumentNotValidException {
 		//First-> Save User
 		UserDTO userDTO = new UserDTO();
 		userDTO.setName("USER BY ID");
@@ -70,7 +70,7 @@ public class UserServiceTestIntegration {
 	}
 	
 	@Test
-	public void findUserByIdButNotFound() throws MethodArgumentNotValid  {
+	public void findUserByIdButNotFound() throws ArgumentNotValidException  {
 		//First-> Save User
 		UserDTO userDTO = new UserDTO();
 		userDTO.setName("USER BY ID");
@@ -88,7 +88,7 @@ public class UserServiceTestIntegration {
 	}
 	
 	@Test
-	public void deleteUser() throws MethodArgumentNotValid {
+	public void deleteUser() throws ArgumentNotValidException {
 		//First-> Save User
 		UserDTO userDTO = new UserDTO();
 		userDTO.setName("USER BY ID");

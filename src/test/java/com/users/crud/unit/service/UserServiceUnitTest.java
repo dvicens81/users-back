@@ -15,7 +15,7 @@ import org.springframework.data.domain.Page;
 
 import com.users.crud.dto.UserDTO;
 import com.users.crud.entity.User;
-import com.users.crud.error.MethodArgumentNotValid;
+import com.users.crud.error.ArgumentNotValidException;
 import com.users.crud.mapper.IMapper;
 import com.users.crud.repository.IUserRepository;
 import com.users.crud.service.IUserService;
@@ -85,7 +85,7 @@ public class UserServiceUnitTest {
 	}
 	
 	@Test
-	public void saveUser() throws MethodArgumentNotValid {
+	public void saveUser() throws ArgumentNotValidException {
 		User u = new User();
 		u.setName("Jaume");
 		UserDTO uDto = new UserDTO();
@@ -100,7 +100,7 @@ public class UserServiceUnitTest {
 	}
 	
 	@Test
-	public void updateUser() throws MethodArgumentNotValid{
+	public void updateUser() throws ArgumentNotValidException{
 		Mockito.when(userRepository.save(user1)).thenReturn(user1);
 		Mockito.when(mapperDtoToEntity.convertEntityToDto(userDto, User.class)).thenReturn(user1);
 		Mockito.when(mapperEntityToDto.convertEntityToDto(user1, UserDTO.class)).thenReturn(userDto);

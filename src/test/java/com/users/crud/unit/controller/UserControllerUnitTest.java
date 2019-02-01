@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.users.crud.controller.UserController;
 import com.users.crud.dto.UserDTO;
-import com.users.crud.error.MethodArgumentNotValid;
+import com.users.crud.error.ArgumentNotValidException;
 import com.users.crud.service.IUserService;
 
 public class UserControllerUnitTest {
@@ -67,7 +67,7 @@ public class UserControllerUnitTest {
 	}
 	
 	@Test
-	public void saveUser() throws MethodArgumentNotValid {
+	public void saveUser() throws ArgumentNotValidException {
 		UserDTO userWithoutId = new UserDTO();
 		userWithoutId.setName("Ramón");
 		Mockito.when(userService.saveUser(userWithoutId)).thenReturn(user3);
@@ -78,7 +78,7 @@ public class UserControllerUnitTest {
 	}
 	
 	@Test
-	public void updateUser() throws MethodArgumentNotValid {
+	public void updateUser() throws ArgumentNotValidException {
 		UserDTO userUpdated = new UserDTO();
 		userUpdated.setId(30);
 		userUpdated.setName("Oscar updated");

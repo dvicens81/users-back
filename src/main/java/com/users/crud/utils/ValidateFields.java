@@ -6,12 +6,12 @@ import javax.mail.internet.InternetAddress;
 import org.springframework.stereotype.Component;
 
 import com.users.crud.dto.UserDTO;
-import com.users.crud.error.MethodArgumentNotValid;
+import com.users.crud.error.ArgumentNotValidException;
 
 @Component
 public class ValidateFields{
 	
-	public void validateFields (UserDTO user) throws MethodArgumentNotValid {
+	public void validateFields (UserDTO user) throws ArgumentNotValidException {
 		validateEmail(user.getEmail());
 	}
 	
@@ -21,9 +21,9 @@ public class ValidateFields{
 				InternetAddress internetAddress = new InternetAddress(email);
 				internetAddress.validate();
 			}catch(NullPointerException ex) {
-				throw new MethodArgumentNotValid();
+				throw new ArgumentNotValidException();
 			}catch(AddressException ex) {
-				throw new MethodArgumentNotValid();
+				throw new ArgumentNotValidException();
 			}
 		}
 	}

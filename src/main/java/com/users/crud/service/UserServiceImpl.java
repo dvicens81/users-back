@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.users.crud.dto.UserDTO;
 import com.users.crud.entity.User;
-import com.users.crud.error.MethodArgumentNotValid;
+import com.users.crud.error.ArgumentNotValidException;
 import com.users.crud.mapper.IMapper;
 import com.users.crud.repository.IUserRepository;
 import com.users.crud.utils.ValidateFields;
@@ -48,7 +48,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public UserDTO saveUser(UserDTO userDTO) throws MethodArgumentNotValid {
+	public UserDTO saveUser(UserDTO userDTO) throws ArgumentNotValidException {
 		//Validate Fields
 		validate.validateFields(userDTO);
 		//OK
@@ -57,7 +57,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public UserDTO updateUser(UserDTO userDTO) throws MethodArgumentNotValid {
+	public UserDTO updateUser(UserDTO userDTO) throws ArgumentNotValidException {
 		return saveUser(userDTO);
 	}
 
