@@ -1,5 +1,7 @@
 package com.users.crud.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -41,13 +43,13 @@ public class UserController {
 	}
 	
 	@PostMapping(value="/users")
-	public ResponseEntity<?> saveUser(@RequestBody UserDTO userDto){		
+	public ResponseEntity<?> saveUser(@Valid @RequestBody UserDTO userDto){		
 		return new ResponseEntity<UserDTO>(userService.saveUser(userDto), HttpStatus.OK);	
 		
 	}
 	
 	@PutMapping(value="/users/{id}")
-	public ResponseEntity<?> updateUser(@PathVariable long id, @RequestBody UserDTO userDto){
+	public ResponseEntity<?> updateUser(@PathVariable long id, @Valid @RequestBody UserDTO userDto){
 		if (userDto.getId() == 0) userDto.setId(id);		
 		return new ResponseEntity<UserDTO>(userService.updateUser(userDto), HttpStatus.OK);
 		
@@ -55,7 +57,7 @@ public class UserController {
 	
 	@DeleteMapping(value="/users/{id}")
 	public ResponseEntity<?> deleteUser(@PathVariable long id){
-		HttpStatus statusCode = HttpStatus.OK;
+		HttpStatus statusCode = HttpStatus.NO_CONTENT;
 		if(!userService.deleteUser(id)) statusCode = HttpStatus.NOT_FOUND;
 		return new ResponseEntity<>(statusCode);
 	}

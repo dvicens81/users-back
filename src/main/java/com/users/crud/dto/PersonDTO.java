@@ -1,12 +1,14 @@
 package com.users.crud.dto;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 public abstract class PersonDTO {
 	
 	private long id;
-	private String name;
 	@NotNull
+	private String name;
+	@NotNull @Email
 	private String email;
 	
 	public long getId() {

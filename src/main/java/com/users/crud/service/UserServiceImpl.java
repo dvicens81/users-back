@@ -12,10 +12,8 @@ import org.springframework.stereotype.Service;
 
 import com.users.crud.dto.UserDTO;
 import com.users.crud.entity.User;
-import com.users.crud.error.ArgumentNotValidException;
 import com.users.crud.mapper.IMapper;
 import com.users.crud.repository.IUserRepository;
-import com.users.crud.utils.ValidateFields;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -23,15 +21,13 @@ public class UserServiceImpl implements IUserService {
 	private IUserRepository userRepository;
 	private IMapper<User, UserDTO> mapperEntityToDto;
 	private IMapper<UserDTO, User> mapperDtoToEntity;
-	private ValidateFields validate;
 	
 	@Autowired
 	public UserServiceImpl(IUserRepository userRepository, IMapper<User, UserDTO> mapperEntityToDto,
-							IMapper<UserDTO, User> mapperDtoToEntity, ValidateFields validate) {
+							IMapper<UserDTO, User> mapperDtoToEntity) {
 		this.userRepository = userRepository;
 		this.mapperEntityToDto = mapperEntityToDto;
 		this.mapperDtoToEntity = mapperDtoToEntity;
-		this.validate = validate;
 	}
 
 	@Override
@@ -48,16 +44,13 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public UserDTO saveUser(UserDTO userDTO) throws ArgumentNotValidException {
-		//Validate Fields
-		validate.validateFields(userDTO);
-		//OK
+	public UserDTO saveUser(UserDTO userDTO) {
 		User newUser = userRepository.save(mapperDtoToEntity.convertEntityToDto(userDTO, User.class));
 		return mapperEntityToDto.convertEntityToDto(newUser, UserDTO.class);
 	}
 
 	@Override
-	public UserDTO updateUser(UserDTO userDTO) throws ArgumentNotValidException {
+	public UserDTO updateUser(UserDTO userDTO) {
 		return saveUser(userDTO);
 	}
 

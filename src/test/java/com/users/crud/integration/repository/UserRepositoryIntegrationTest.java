@@ -22,7 +22,7 @@ import com.users.crud.repository.IUserRepository;
 @SpringBootTest
 @ActiveProfiles("test")
 @TestPropertySource(locations= {"classpath:application-test.properties"})
-public class UserRepositoryTestIntegration {
+public class UserRepositoryIntegrationTest {
 	
 	@Autowired
 	private IUserRepository userRepository;

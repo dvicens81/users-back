@@ -15,14 +15,13 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.users.crud.dto.UserDTO;
-import com.users.crud.error.ArgumentNotValidException;
 import com.users.crud.service.IUserService;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @ActiveProfiles("test")
 @TestPropertySource(locations= {"classpath:application-test.properties"})
-public class UserServiceTestIntegration {
+public class UserServiceIntegrationTest {
 	
 	@Autowired
 	private IUserService userService;
@@ -34,7 +33,7 @@ public class UserServiceTestIntegration {
 	}
 
 	@Test
-	public void save() throws ArgumentNotValidException {		
+	public void save() {		
 		UserDTO userDTO = new UserDTO();
 		userDTO.setName("DTO USER");
 		userDTO.setEmail("d@d.es");
@@ -43,7 +42,7 @@ public class UserServiceTestIntegration {
 	}
 	
 	@Test
-	public void update() throws ArgumentNotValidException {
+	public void update() {
 		//First-> Save User
 		UserDTO userDTO = new UserDTO();
 		userDTO.setName("DTO USER");
@@ -57,7 +56,7 @@ public class UserServiceTestIntegration {
 	}
 	
 	@Test
-	public void findUserById() throws ArgumentNotValidException {
+	public void findUserById(){
 		//First-> Save User
 		UserDTO userDTO = new UserDTO();
 		userDTO.setName("USER BY ID");
@@ -70,7 +69,7 @@ public class UserServiceTestIntegration {
 	}
 	
 	@Test
-	public void findUserByIdButNotFound() throws ArgumentNotValidException  {
+	public void findUserByIdButNotFound(){
 		//First-> Save User
 		UserDTO userDTO = new UserDTO();
 		userDTO.setName("USER BY ID");
@@ -88,7 +87,7 @@ public class UserServiceTestIntegration {
 	}
 	
 	@Test
-	public void deleteUser() throws ArgumentNotValidException {
+	public void deleteUser() {
 		//First-> Save User
 		UserDTO userDTO = new UserDTO();
 		userDTO.setName("USER BY ID");

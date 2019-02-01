@@ -15,12 +15,10 @@ import org.springframework.data.domain.Page;
 
 import com.users.crud.dto.UserDTO;
 import com.users.crud.entity.User;
-import com.users.crud.error.ArgumentNotValidException;
 import com.users.crud.mapper.IMapper;
 import com.users.crud.repository.IUserRepository;
 import com.users.crud.service.IUserService;
 import com.users.crud.service.UserServiceImpl;
-import com.users.crud.utils.ValidateFields;
 
 public class UserServiceUnitTest {
 	
@@ -28,7 +26,6 @@ public class UserServiceUnitTest {
 	private IUserService userService;
 	private IMapper<User, UserDTO> mapperEntityToDto;
 	private IMapper<UserDTO, User> mapperDtoToEntity;
-	private ValidateFields validate;
 	
 	private User user1;
 	private User user2;
@@ -44,8 +41,7 @@ public class UserServiceUnitTest {
 		userRepository = Mockito.mock(IUserRepository.class);
 		mapperEntityToDto = Mockito.mock(IMapper.class);
 		mapperDtoToEntity = Mockito.mock(IMapper.class);
-		validate = Mockito.mock(ValidateFields.class);
-		userService = new UserServiceImpl(userRepository,mapperEntityToDto,mapperDtoToEntity,validate);
+		userService = new UserServiceImpl(userRepository,mapperEntityToDto,mapperDtoToEntity);
 		user1 = new User();
 		user1.setId(1);
 		user1.setName("Jaume");
@@ -85,7 +81,7 @@ public class UserServiceUnitTest {
 	}
 	
 	@Test
-	public void saveUser() throws ArgumentNotValidException {
+	public void saveUser(){
 		User u = new User();
 		u.setName("Jaume");
 		UserDTO uDto = new UserDTO();
@@ -100,7 +96,7 @@ public class UserServiceUnitTest {
 	}
 	
 	@Test
-	public void updateUser() throws ArgumentNotValidException{
+	public void updateUser(){
 		Mockito.when(userRepository.save(user1)).thenReturn(user1);
 		Mockito.when(mapperDtoToEntity.convertEntityToDto(userDto, User.class)).thenReturn(user1);
 		Mockito.when(mapperEntityToDto.convertEntityToDto(user1, UserDTO.class)).thenReturn(userDto);

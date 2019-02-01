@@ -31,6 +31,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.users.crud.dto.UserDTO;
 import com.users.crud.service.IUserService;
 
@@ -48,12 +49,15 @@ public class UserControllerIntegrationTest {
 	private UserDTO user1;
 	private UserDTO user2;
 	private UserDTO user3;
+	private ObjectMapper mapper;
+
 	
 	@MockBean
 	private IUserService userService;
 	
 	@BeforeEach
 	public void setUp() {
+		mapper = new ObjectMapper();
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(wap).build();
 		user1 = new UserDTO();
 		user1.setId(23);
@@ -70,7 +74,7 @@ public class UserControllerIntegrationTest {
 		
 		lUsers = new ArrayList<UserDTO>();
 		lUsers.add(user1);
-		lUsers.add(user2);
+		lUsers.add(user2);		
 	}
 	
 	@Test
@@ -103,12 +107,13 @@ public class UserControllerIntegrationTest {
 	public void saveUser() throws Exception {
 		UserDTO user = new UserDTO();
 		user.setName("Óscar");
-		user.setEmail("c@c.es");
+		user.setEmail("c@c.es");		
+	
 		when(userService.saveUser(user)).thenReturn(user3);
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
 				.post("/api/crud/users")
-				.accept(MediaType.APPLICATION_JSON).content("{\"name\":\"Óscar\"}")
+				.accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user))
 				.contentType(MediaType.APPLICATION_JSON);
 
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
@@ -127,7 +132,7 @@ public class UserControllerIntegrationTest {
 		
 		RequestBuilder requestBuilder = MockMvcRequestBuilders
 				.put("/api/crud/users/30")
-				.accept(MediaType.APPLICATION_JSON).content("{\"id:\":\"30\",\"name\":\"Óscar\"}")
+				.accept(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user))
 				.contentType(MediaType.APPLICATION_JSON);
 
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
@@ -141,7 +146,7 @@ public class UserControllerIntegrationTest {
 		when(userService.deleteUser(2)).thenReturn(true);
 		
 		mockMvc.perform(delete("/api/crud/users/2").contentType(MediaType.APPLICATION_JSON))		
-			.andExpect(status().isOk());
+			.andExpect(status().isNoContent());
 	}
 	
 	@Test
