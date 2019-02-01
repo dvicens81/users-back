@@ -12,18 +12,18 @@ If you would like run this project. Add the following files:
         Add the following properties
             
             # Datasource
-            spring.datasource.url=
-            spring.datasource.username=
-            spring.datasource.password=
+            spring.datasource.url=<url>
+            spring.datasource.username=<username>
+            spring.datasource.password=<password>
             
     · application-test.properties
         Add the following properties
         
             spring.datasource.platform=test
             # Datasource
-            spring.datasource.url=
-            spring.datasource.username=
-            spring.datasource.password=
+            spring.datasource.url=<url>
+            spring.datasource.username=<username>
+            spring.datasource.password=<password>
             
 EndPoints
   
