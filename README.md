@@ -18,6 +18,7 @@ If you would like run this project. Add the following files:
             
     · application-test.properties
         Add the following properties
+        
             spring.datasource.platform=test
             # Datasource
             spring.datasource.url=
