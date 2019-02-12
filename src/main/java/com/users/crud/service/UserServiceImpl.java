@@ -1,10 +1,10 @@
 package com.users.crud.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -33,13 +33,13 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public Page<UserDTO> findAllUsers() {		
 		List<UserDTO> lUsersMapped = mapperEntityToDto.convertListEntityToListDto(userRepository.findAll(), UserDTO.class);
-		return new PageImpl<UserDTO>(lUsersMapped, Pageable.unpaged(), lUsersMapped.size());
+		return new PageImpl<>(lUsersMapped, Pageable.unpaged(), lUsersMapped.size());
 	}
 
 	@Override
 	public UserDTO findUserById(long id) {
 		Optional<User> user = userRepository.findById(id);
-		if (!user.isPresent()) return null;
+		if(!user.isPresent()) throw new NoSuchElementException();
 		return mapperEntityToDto.convertEntityToDto(user.get(), UserDTO.class);
 	}
 
@@ -55,13 +55,8 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public boolean deleteUser(long id) {
-		try {
-			userRepository.deleteById(id);
-			return true;
-		}catch(EmptyResultDataAccessException ex) {
-			return false;
-		}			
+	public void deleteUser(long id) {
+		userRepository.deleteById(id);
 	}
 
 }

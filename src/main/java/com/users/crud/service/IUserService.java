@@ -10,5 +10,5 @@ public interface IUserService {
 	UserDTO findUserById(long id);
 	UserDTO saveUser(UserDTO userDTO);
 	UserDTO updateUser(UserDTO userDTO);
-	boolean deleteUser(long id);
+	void deleteUser(long id);
 }

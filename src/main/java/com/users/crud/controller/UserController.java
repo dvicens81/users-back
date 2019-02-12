@@ -20,7 +20,7 @@ import com.users.crud.service.IUserService;
 
 @RequestMapping("/api/crud")
 @RestController
-public class UserController {
+public class UserController{
 	
 	private IUserService userService;
 	
@@ -31,35 +31,29 @@ public class UserController {
 	
 	@GetMapping(value="/users")
 	public ResponseEntity<Page<UserDTO>> findAllUsers(){
-		return new ResponseEntity<Page<UserDTO>>(userService.findAllUsers(), HttpStatus.OK);
+		return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
 	}
 	
 	@GetMapping(value="/users/{id}")
 	public ResponseEntity<UserDTO> findUserById(@PathVariable long id){
-		HttpStatus statusCode = HttpStatus.OK;
-		UserDTO userDTO = userService.findUserById(id);
-		if (userDTO == null) statusCode = HttpStatus.NOT_FOUND;
-		return new ResponseEntity<UserDTO>(userDTO, statusCode);
+		return new ResponseEntity<>(userService.findUserById(id), HttpStatus.OK);
 	}
 	
 	@PostMapping(value="/users")
-	public ResponseEntity<?> saveUser(@Valid @RequestBody UserDTO userDto){		
-		return new ResponseEntity<UserDTO>(userService.saveUser(userDto), HttpStatus.OK);	
-		
+	public ResponseEntity<UserDTO> saveUser(@Valid @RequestBody UserDTO userDto){		
+		return new ResponseEntity<>(userService.saveUser(userDto), HttpStatus.OK);
 	}
 	
 	@PutMapping(value="/users/{id}")
-	public ResponseEntity<?> updateUser(@PathVariable long id, @Valid @RequestBody UserDTO userDto){
+	public ResponseEntity<UserDTO> updateUser(@PathVariable long id, @Valid @RequestBody UserDTO userDto){
 		if (userDto.getId() == 0) userDto.setId(id);		
-		return new ResponseEntity<UserDTO>(userService.updateUser(userDto), HttpStatus.OK);
-		
+		return new ResponseEntity<>(userService.updateUser(userDto), HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value="/users/{id}")
-	public ResponseEntity<?> deleteUser(@PathVariable long id){
-		HttpStatus statusCode = HttpStatus.NO_CONTENT;
-		if(!userService.deleteUser(id)) statusCode = HttpStatus.NOT_FOUND;
-		return new ResponseEntity<>(statusCode);
+	public ResponseEntity<Object> deleteUser(@PathVariable long id){
+		userService.deleteUser(id);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 }

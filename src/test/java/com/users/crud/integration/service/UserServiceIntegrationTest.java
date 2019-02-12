@@ -3,7 +3,9 @@ package com.users.crud.integration.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -81,9 +83,9 @@ public class UserServiceIntegrationTest {
 		assertNotNull(userFindById);
 		//DELETE USER
 		userService.deleteUser(newUserDto.getId());
-		userFindById = userService.findUserById(newUserDto.getId());
-		assertNull(userFindById);
-		
+		assertThrows(NoSuchElementException.class, () -> {
+			userService.findUserById(newUserDto.getId());
+	    });	
 	}
 	
 	@Test
@@ -94,7 +96,10 @@ public class UserServiceIntegrationTest {
 		userDTO.setEmail("d@d.es");
 		UserDTO newUserDto = userService.saveUser(userDTO);
 		assertNotEquals(newUserDto.getId(), 0);
-		boolean isDeleted = userService.deleteUser(newUserDto.getId());
-		assertEquals(isDeleted, true);				
+		userService.deleteUser(newUserDto.getId());
+		//FIND USER DELETED
+		assertThrows(NoSuchElementException.class, () -> {
+			userService.findUserById(newUserDto.getId());
+	    });
 	}
 }

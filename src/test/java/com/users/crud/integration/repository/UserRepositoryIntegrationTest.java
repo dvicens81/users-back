@@ -61,7 +61,7 @@ public class UserRepositoryIntegrationTest {
 	@Test
 	public void saveUser() {
 		User user = new User();
-		user.setName("Testing");
+		user.setName("Testing 3");
 		user.setEmail("c@c.es");
 		User newUser = userRepository.save(user);
 		assertNotNull(newUser);

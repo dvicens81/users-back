@@ -2,6 +2,7 @@ package com.users.crud.unit.service;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -108,9 +109,11 @@ public class UserServiceUnitTest {
 	
 	@Test
 	public void deleteUser() {
-		boolean isDeleted = userService.deleteUser(1);
-		
-		assertEquals(isDeleted, true);
+		userService.deleteUser(1);
+		Mockito.when(userRepository.findById(1)).thenReturn(null);
+		assertThrows(NullPointerException.class, ()->{
+			userService.findUserById(1);
+		});
 	}
 	
 

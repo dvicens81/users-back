@@ -2,6 +2,7 @@ package com.users.crud.integration.controller;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -10,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +19,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -97,7 +100,7 @@ public class UserControllerIntegrationTest {
 	
 	@Test
 	public void findUserByIdButNotFound() throws Exception {
-		when(userService.findUserById(2)).thenReturn(null);
+		doThrow(NoSuchElementException.class).when(userService).findUserById(23);
 		
 		mockMvc.perform(get("/api/crud/users/23").contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().isNotFound());
@@ -143,15 +146,14 @@ public class UserControllerIntegrationTest {
 	
 	@Test
 	public void deleteUserById() throws Exception {
-		when(userService.deleteUser(2)).thenReturn(true);
-		
 		mockMvc.perform(delete("/api/crud/users/2").contentType(MediaType.APPLICATION_JSON))		
 			.andExpect(status().isNoContent());
 	}
 	
 	@Test
 	public void deleteUserByIdButNotFound() throws Exception {
-		when(userService.deleteUser(22)).thenReturn(false);
+		doThrow(EmptyResultDataAccessException.class).when(userService).deleteUser(22);
+		
 		
 		mockMvc.perform(delete("/api/crud/users/22").contentType(MediaType.APPLICATION_JSON))		
 			.andExpect(status().isNotFound());

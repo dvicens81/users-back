@@ -19,7 +19,7 @@ public class MapperImpl<E,T> implements IMapper<E, T> {
 	}
 	
 	private List<T> getListDtos(List<E> listItems, Class<T> nameClass){
-		List<T> itemsDto = new LinkedList<T>();
+		List<T> itemsDto = new LinkedList<>();
 		for (E item : listItems) {			
 			itemsDto.add(convertEntityToDto(item, nameClass));
 		}

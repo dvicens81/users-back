@@ -1,12 +1,15 @@
 package com.users.crud.unit.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doThrow;
 
 import java.util.Arrays;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -90,7 +93,7 @@ public class UserControllerUnitTest {
 	
 	@Test
 	public void deleteUser() {
-		Mockito.when(userService.deleteUser(3)).thenReturn(true);
+		
 		ResponseEntity<?> httpResponse = userController.deleteUser(3);
 
         assertEquals(httpResponse.getStatusCode(), HttpStatus.NO_CONTENT);
@@ -98,10 +101,10 @@ public class UserControllerUnitTest {
 	
 	@Test
 	public void deleteUserNotFound() {
-		Mockito.when(userService.deleteUser(1)).thenReturn(false);
-		ResponseEntity<?> httpResponse = userController.deleteUser(1);
-
-        assertEquals(httpResponse.getStatusCode(), HttpStatus.NOT_FOUND);
+		doThrow(EmptyResultDataAccessException.class).when(userService).deleteUser(1);
+		assertThrows(EmptyResultDataAccessException.class, () -> {
+			userController.deleteUser(1);
+	    });
 	}
 
 }
